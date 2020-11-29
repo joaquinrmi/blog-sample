@@ -1,0 +1,8 @@
+design/
+node_modules/
+
+.babelrc
+webpack.config.js
+nodemon.json
+
+src/public/
