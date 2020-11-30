@@ -1,0 +1,28 @@
+body
+{
+   background-color: #fafafa;
+}
+
+.content-limit
+{
+   max-width: 1120px;
+   margin: auto;
+}
+
+.table-container
+{
+   display: table;
+   width: 100%;
+   box-sizing: border-box;
+   vertical-align: top;
+}
+
+.table-row
+{
+   display: table-row;
+}
+
+.body-section
+{
+   display: table-cell;
+}
