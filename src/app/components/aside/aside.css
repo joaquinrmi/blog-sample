@@ -2,3 +2,86 @@
 {
    padding: 0 2em;
 }
+
+.aside-section
+{
+   box-sizing: border-box;
+   margin-bottom: 3em;
+}
+
+.aside-search-container
+{
+   display: flex;
+   align-items: center;
+   padding-right: 30px;
+   border: 1px solid #eee !important;
+   background-color: white;
+}
+
+.aside-search,
+.aside-search-icon
+{
+   display: table-cell;
+}
+
+.aside-search
+{
+   margin: 0 !important;
+   box-sizing: border-box !important;
+   background-color: white !important;
+   border: none !important;
+   padding: 10px !important;
+}
+
+.aside-search:focus
+{
+   border: none !important;
+   box-shadow: none !important;
+}
+
+.aside-search-icon
+{
+   line-height: 0 !important;
+   cursor: pointer;
+}
+
+.aside-search-icon span
+{
+   margin: 0 !important;
+   padding: 0 !important;
+}
+
+.aside-search::placeholder
+{
+   color: #757575 !important;
+}
+
+.aside-title
+{
+   margin-bottom: 20px;
+}
+
+.aside-list li
+{
+   box-sizing: border-box;
+   padding-left: 6px;
+   margin-top: 8px;
+}
+
+.aside-list li a
+{
+   color: #424242;
+   font-weight: bold;
+}
+
+.blog-tag a
+{
+   color: #424242;
+   font-weight: bold;
+}
+
+.blog-tag-count
+{
+   color: #bdbdbd;
+   margin-left: 8px;
+}

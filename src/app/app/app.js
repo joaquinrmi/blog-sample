@@ -6,7 +6,10 @@ import {
 } from "react-router-dom";
 
 import MainHeader from "./components/main_header";
+import Footer from "./components/footer";
+import Aside from "../components/aside";
 import Homepage from "../pages/homepage";
+import ArticlePage from "../pages/article";
 
 import "./app.css";
 
@@ -21,28 +24,44 @@ class App extends Component
    {
       return <div>
          <MainHeader />
-         
-         <Switch>
-            <Route exact path="/">
-               <Homepage />
-            </Route>
 
-            <Route path="/section/:id">
-               <Section />
-            </Route>
-         </Switch>
+         <div className="app-body content-limit table-container">
+            <div className="body-section left-body-section">
+            <Switch>
+               <Route exact path="/">
+                  <Homepage />
+               </Route>
+
+               <Route path="/categorie/:id">
+                  <Categorie />
+               </Route>
+
+               <Route path="/article/:id">
+                  <Article />
+               </Route>
+            </Switch>
+            </div>
+
+            <div className="body-section right-body-section">
+               <Aside />
+            </div>
+         </div>
+
+         <Footer />
       </div>;
    }
 };
 
-function Section()
+function Categorie()
 {
    let { id } = useParams();
    return <span>{id}</span>;
 }
 
-export default App;
+function Article()
+{
+   let { id } = useParams();
+   return <ArticlePage id={id} />;
+}
 
-/*
-   Iconos diseñados por <a href="https://www.flaticon.es/autores/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.es/" title="Flaticon"> www.flaticon.es</a>
-*/
+export default App;

@@ -3,6 +3,11 @@ body
    background-color: #fafafa;
 }
 
+.app-body
+{
+   padding: 2em 0;
+}
+
 .content-limit
 {
    max-width: 1120px;
@@ -27,7 +32,26 @@ body
    display: table-cell;
 }
 
+.right-body-section
+{
+   vertical-align: top;
+   box-sizing: border-box;
+   width: 300px;
+}
+
+.left-body-section
+{
+   box-sizing: border-box;
+   padding: 0 2em;
+   width: auto;
+}
+
 .none-select
 {
    user-select: none;
+}
+
+.loading
+{
+   background-color: #eeeeee;
 }

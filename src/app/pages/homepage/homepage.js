@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-import Aside from "../../components/aside";
 import Article from "../../components/article";
 
 import "./homepage.css";
@@ -30,27 +29,19 @@ class Homepage extends Component
    render()
    {
       return <div className="homepage-container">
-         <div className="homepage-body content-limit table-container">
-            <div className="table-row">
-               <div className="body-section aside-container">
-                  <Aside />
-               </div>
+         <div className="body-section article-container">
+            {(() => {
+               let articles = [];
 
-               <div className="body-section article-container">
-                  {(() => {
-                     let articles = [];
+               for(let i = 0; i < this.articles.length; ++i)
+               {
+                  const article = this.articles[i];
 
-                     for(let i = 0; i < this.articles.length; ++i)
-                     {
-                        const article = this.articles[i];
+                  articles.push(<Article title={article.title} tags={article.tags} content={article.content} cover={article.cover} />);
+               }
 
-                        articles.push(<Article title={article.title} tags={article.tags} content={article.content} cover={article.cover} />);
-                     }
-
-                     return articles;
-                  })()}
-               </div>
-            </div>
+               return articles;
+            })()}
          </div>
       </div>
    }
