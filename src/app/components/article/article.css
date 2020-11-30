@@ -1,3 +1,13 @@
+.article
+{
+   margin-top: 2em;
+}
+
+.article:first-child
+{
+   margin: 0;
+}
+
 .article-cover
 {
    width: 100%;
@@ -10,9 +20,25 @@
    box-sizing: border-box;
 }
 
-.article-title h5
+.article-tags-container
 {
-   margin: 0;
+   display: table;
+}
+
+.article-tag
+{
+   display: inline-block;
+   margin-right: 1em;
+}
+
+.article-tag a
+{
+   color: #bdbdbd;
+}
+
+.article-title h4
+{
+   margin: 14px 0 0 0;
    color: #212121;
 }
 
@@ -35,6 +61,22 @@
 
 .article-footer
 {
-   margin-top: 2em;
+   display: table;
+   border-collapse: separate;
+   border-spacing: 10px;
+   margin: 2em auto 0 auto;
+   padding: 1em 4em 0 4em;
    border-top: 1px solid #eeeeee;
+   text-align: center;
+}
+
+.social-icon
+{
+   display: table-cell;
+   width: 20px;
+}
+
+.social-icon img
+{
+   width: 100%;
 }

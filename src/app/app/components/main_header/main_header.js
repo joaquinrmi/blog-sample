@@ -18,7 +18,7 @@ class MainHeader extends Component
 
                <div className="col s12 m4">
                   <h1><a className="grey-text darken-1-text" href="/">
-                     Sample Blog
+                     Blog Sample
                   </a></h1>
                </div>
 

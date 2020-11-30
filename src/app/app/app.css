@@ -26,3 +26,8 @@ body
 {
    display: table-cell;
 }
+
+.none-select
+{
+   user-select: none;
+}

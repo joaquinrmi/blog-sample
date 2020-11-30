@@ -2,6 +2,10 @@ import React, { Component } from "react";
 
 import "./article.css";
 
+import FacebookIcon from "../../../res/icon/facebook.svg";
+import TwitterIcon from "../../../res/icon/gorjeo.svg";
+import WhatsappIcon from "../../../res/icon/whatsapp.svg";
+
 class Article extends Component
 {
    constructor(props)
@@ -13,24 +17,53 @@ class Article extends Component
    {
       return <div className="article z-depth-1">
          <div className="article-cover" style={{
-            backgroundImage: 'url("https://miro.medium.com/max/9856/1*ZoOlQLNrOW2729miRvO1sw.jpeg")',
+            backgroundImage: 'url("' + this.props.cover + '")',
             backgroundRepeat: "no-repeat",
             backgroundPosition: "center",
             backgroundSize: "cover"
          }}></div>
          <div className="article-content">
             <div className="article-title">
-               <h5>First article</h5>
+               <div className="article-tags-container">
+                  {(() => {
+                     let tags = [];
+
+                     for(let i = 0; i < this.props.tags.length; ++i)
+                     {
+                        const tag = this.props.tags[i];
+
+                        tags.push(<div className="article-tag">
+                           <a href="#">{tag}</a>
+                        </div>);
+                     }
+
+                     return tags;
+                  })()}
+               </div>
+
+               <h4>{this.props.title}</h4>
             </div>
 
             <div className="article-body">
-               <span className="article-body-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis id ipsum sed purus semper scelerisque in ac ipsum. Nulla ac eros eu ante ornare pretium sed quis turpis. Sed feugiat tellus lectus, nec viverra ante placerat quis. Duis aliquam pulvinar nunc. Praesent magna purus, cursus ac odio ac, placerat hendrerit tellus. Quisque consequat est eget ultricies convallis. Nulla facilisi.</span>
+               <span className="article-body-text">{this.props.content}</span>
                <div className="article-body-readmore">
                   <a href="#">READ MORE</a>
                </div>
             </div>
 
-            <div className="article-footer"></div>
+            <div className="article-footer">
+            <div className="social-icon">
+                  <a href="#"><img src={FacebookIcon} /></a>
+               </div>
+
+               <div className="social-icon">
+                  <a href="#"><img src={TwitterIcon} /></a>
+               </div>
+
+               <div className="social-icon">
+                  <a href="#"><img src={WhatsappIcon} /></a>
+               </div>
+            </div>
          </div>
       </div>;
    }
