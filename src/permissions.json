@@ -1,0 +1,16 @@
+{
+   "admin": {
+      "create_article": true,
+      "erase_own_article": true,
+      "erase_many_articles": true,
+      "generate_admin_key": true,
+      "erase_user": true
+   },
+   "creator": {
+      "create_article": true,
+      "erase_own_article": true,
+      "erase_many_articles": false,
+      "generate_admin_key": false,
+      "erase_user": false
+   }
+}
