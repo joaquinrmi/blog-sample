@@ -10,6 +10,7 @@ mongoose.connect(DB_DATA.URI, {
 })
 .then(() => {
 	console.log("Conectado a la base de datos!");
+	require("./init/")();
 })
 .catch(error => {
 	console.error(error);

@@ -5,6 +5,7 @@ const userSchema = new Schema({
    username:   String,
    email:      String,
    password:   String,
+   grade:      String,
    articles:   [ mongoose.ObjectId ]
 });
 

@@ -4,3 +4,5 @@ node_modules/
 src/public/res/
 
 src/db_connection_data.json
+src/session_secret.json
+src/init/admin_info.json

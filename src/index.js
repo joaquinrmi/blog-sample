@@ -1,9 +1,10 @@
 const path = require("path");
 const express = require("express");
-
-require("./database");
+const cookieParser = require('cookie-parser');
+const session = require("express-session");
 
 const ContentCreatorAPI = require("./content_creator_api/index");
+require("./database");
 
 const app = express();
 
@@ -13,6 +14,12 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
+app.use(cookieParser());
+app.use(session({
+	secret: require("./session_secret.json").secret,
+	resave: false,
+	saveUninitialized: false
+}));
 
 /*
    Rutas de la API
