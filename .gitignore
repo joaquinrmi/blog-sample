@@ -2,3 +2,5 @@ design/
 node_modules/
 
 src/public/res/
+
+src/db_connection_data.json
