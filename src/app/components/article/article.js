@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import "./article.css";
 
@@ -33,7 +34,11 @@ class Article extends Component
                         const tag = this.props.tags[i];
 
                         tags.push(<div className="article-tag">
-                           <a href={`/category/${tag}`}>{tag}</a>
+                           <Link to={`/category/${tag}`}>
+                              <span className="grey-text text-lighten-1">
+                                 {tag}
+                              </span>
+                           </Link>
                         </div>);
                      }
 
@@ -41,15 +46,17 @@ class Article extends Component
                   })()}
                </div>
 
-               <h4><a href={`/article/${this.props.name}`}>
-                  {this.props.title}
-               </a></h4>
+               <h4><Link to={`/article/${this.props.name}`}>
+                  <span className="grey-text text-darken-4">
+                     {this.props.title}
+                  </span>
+               </Link></h4>
             </div>
 
             <div className="article-body">
                <span className="article-body-text">{this.props.content}</span>
                <div className="article-body-readmore">
-                  <a href={`/article/${this.props.name}`}>READ MORE</a>
+                  <Link to={`/article/${this.props.name}`}>READ MORE</Link>
                </div>
             </div>
 

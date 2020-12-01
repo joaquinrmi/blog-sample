@@ -1,5 +1,6 @@
 .article
 {
+   background-color: white;
    margin-top: 2em;
 }
 
@@ -29,11 +30,6 @@
 {
    display: inline-block;
    margin-right: 1em;
-}
-
-.article-tag a
-{
-   color: #bdbdbd;
 }
 
 .article-title h4

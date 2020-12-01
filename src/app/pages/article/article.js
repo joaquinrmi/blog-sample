@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import "./article.css";
 
@@ -97,9 +98,9 @@ class Article extends Component
                      for(let i = 0; i < this.tags.length; ++i)
                      {
                         tags.push(<div className="article-page-tag" key={`article-page-tag-${this.tags[i]}`}>
-                           <a href={`/category/${this.tags[i]}`}>
+                           <Link to={`/category/${this.tags[i]}`}>
                               {this.tags[i]}
-                           </a>
+                           </Link>
                         </div>);
                      }
 

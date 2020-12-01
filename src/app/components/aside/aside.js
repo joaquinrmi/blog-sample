@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 import "./aside.css";
 
@@ -82,7 +83,7 @@ class Aside extends Component
                      const art = this.articles[i];
 
                      articles.push(<li key={`aside-article-${art.name}`}>
-                        <a href={`/article/${art.name}`}>{art.title}</a>
+                        <Link to={`/article/${art.name}`}>{art.title}</Link>
                      </li>)
                   }
 
@@ -104,7 +105,7 @@ class Tag extends Component
    render()
    {
       return <span className="blog-tag">
-         <a href={`/category/${this.props.value}`}>{this.props.value}</a>
+         <Link to={`/category/${this.props.value}`}>{this.props.value}</Link>
          <span className="blog-tag-count">({this.props.count})</span>
       </span>
    }
