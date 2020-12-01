@@ -78,6 +78,7 @@
 {
    color: #424242;
    font-weight: bold;
+   text-transform: capitalize;
 }
 
 .blog-tag-count

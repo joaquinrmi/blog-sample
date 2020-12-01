@@ -10,6 +10,7 @@ import Footer from "./components/footer";
 import Aside from "../components/aside";
 import Homepage from "../pages/homepage";
 import ArticlePage from "../pages/article";
+import CategoryPage from "../pages/category";
 
 import "./app.css";
 
@@ -39,6 +40,10 @@ class App extends Component
                <Route path="/article/:id">
                   <Article />
                </Route>
+
+               <Route path="/category/:id">
+                  <Category />
+               </Route>
             </Switch>
             </div>
 
@@ -62,6 +67,12 @@ function Article()
 {
    let { id } = useParams();
    return <ArticlePage id={id} />;
+}
+
+function Category()
+{
+   let { id } = useParams();
+   return <CategoryPage id={id} />;
 }
 
 export default App;

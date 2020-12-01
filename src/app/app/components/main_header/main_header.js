@@ -30,7 +30,7 @@ class MainHeader extends Component
             <nav className="transparent">
                <ul>
                   <li className="active"><a href="/">Home</a></li>
-                  <li><a href="/section/news">News</a></li>
+                  <li><a href="/category/animals">Animals</a></li>
                </ul>
             </nav>
          </div>

@@ -37,11 +37,9 @@ class Article extends Component
          Acá hay que obtener los datos del artículo actual.
       */
 
-      console.log("init");
       setTimeout(() => {
          this.setData();
       }, 1000);
-      console.log("end");
    }
 
    render()

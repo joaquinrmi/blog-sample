@@ -1,0 +1,11 @@
+.loading-article
+{
+   width: 100%;
+   margin-bottom: 2em;
+}
+
+.loading-article-body
+{
+   padding: 0 2em 2em 2em;
+   box-sizing: border-box;
+}

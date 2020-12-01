@@ -7,6 +7,32 @@ class Aside extends Component
    constructor(props)
    {
       super(props);
+
+      this.tags = [
+         {
+            value: "animals",
+            count: 2
+         },
+         {
+            value: "example",
+            count: 2
+         },
+         {
+            value: "news",
+            count: 2
+         }
+      ];
+
+      this.articles = [
+         {
+            name: "first-article",
+            title: "First article"
+         },
+         {
+            name: "second-article",
+            title: "Second article"
+         }
+      ];
    }
 
    render()
@@ -27,9 +53,18 @@ class Aside extends Component
             </div>
 
             <ul className="aside-list">
-               <li><Tag value="Animals" count={2} /></li>
-               <li><Tag value="Example" count={2} /></li>
-               <li><Tag value="News" count={2} /></li>
+               {(() => {
+                  const tags = [];
+
+                  for(let i = 0; i < this.tags.length; ++i)
+                  {
+                     const tag = this.tags[i];
+
+                     tags.push(<li key={`aside-tag-${tag.value}`}><Tag value={tag.value} count={tag.count} /></li>);
+                  }
+
+                  return tags;
+               })()}
             </ul>
          </div>
 
@@ -39,12 +74,20 @@ class Aside extends Component
             </div>
 
             <ul className="aside-list">
-               <li>
-                  <a href="#">First article</a>
-               </li>
-               <li>
-                  <a href="#">Second article</a>
-               </li>
+               {(() => {
+                  const articles = [];
+
+                  for(let i = 0; i < this.articles.length; ++i)
+                  {
+                     const art = this.articles[i];
+
+                     articles.push(<li key={`aside-article-${art.name}`}>
+                        <a href={`/article/${art.name}`}>{art.title}</a>
+                     </li>)
+                  }
+
+                  return articles;
+               })()}
             </ul>
          </div>
       </div>;
@@ -61,7 +104,7 @@ class Tag extends Component
    render()
    {
       return <span className="blog-tag">
-         <a href="#">{this.props.value}</a>
+         <a href={`/category/${this.props.value}`}>{this.props.value}</a>
          <span className="blog-tag-count">({this.props.count})</span>
       </span>
    }

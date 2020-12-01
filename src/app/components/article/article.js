@@ -33,7 +33,7 @@ class Article extends Component
                         const tag = this.props.tags[i];
 
                         tags.push(<div className="article-tag">
-                           <a href="#">{tag}</a>
+                           <a href={`/category/${tag}`}>{tag}</a>
                         </div>);
                      }
 
@@ -41,13 +41,15 @@ class Article extends Component
                   })()}
                </div>
 
-               <h4>{this.props.title}</h4>
+               <h4><a href={`/article/${this.props.name}`}>
+                  {this.props.title}
+               </a></h4>
             </div>
 
             <div className="article-body">
                <span className="article-body-text">{this.props.content}</span>
                <div className="article-body-readmore">
-                  <a href="#">READ MORE</a>
+                  <a href={`/article/${this.props.name}`}>READ MORE</a>
                </div>
             </div>
 
