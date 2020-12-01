@@ -18,3 +18,38 @@
    width: 100%;
    height: 18px;
 }
+
+.article-page-cover
+{
+   width: 100%;
+   height: 300px;
+}
+
+.article-page-title
+{
+   margin: 2em 0;
+}
+
+.article-page-title h4
+{
+   margin: 0;
+}
+
+.article-page-tags-container
+{
+   text-align: right;
+   padding: 1em;
+}
+
+.article-page-tag
+{
+   padding: 8px;
+   display: inline-block;
+   margin-left: 8px;
+   background-color: #eeeeee;
+}
+
+.article-page-tag a
+{
+   color: #424242;
+}

@@ -21,7 +21,8 @@
   "homepage": "https://github.com/joaquinrmi/sample-blog",
   "dependencies": {
     "express": "^4.17.1",
-    "express-session": "^1.17.1"
+    "express-session": "^1.17.1",
+    "mongoose": "^5.10.19"
   },
   "devDependencies": {
     "@babel/core": "^7.12.3",
