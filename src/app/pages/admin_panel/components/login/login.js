@@ -18,7 +18,7 @@ class Login extends Component
       const username = document.getElementById("login-username").value;
       const password = document.getElementById("login-password").value;
 
-      serverQuery.post("/secret/admin-panel/login", {
+      serverQuery.post("/creator/login", {
          username, password
       })
       .then(res => res.json())
@@ -46,12 +46,12 @@ class Login extends Component
             <form>
                <div className="row login-form-body">
                   <div className="col s12 input-field">
-                     <input id="login-username" placeholder="Nombre de usuario" type="text" />
+                     <input id="login-username" type="text" />
                      <label htmlFor="login-username">Nombre de usuario</label>
                   </div>
 
                   <div className="col s12 input-field">
-                     <input id="login-password" placeholder="Contraseña" type="password" />
+                     <input id="login-password" type="password" />
                      <label htmlFor="login-password">Contraseña</label>
                   </div>
 

@@ -20,7 +20,7 @@ class Signup extends Component
       const password = document.getElementById("signup-password").value;
       const key = document.getElementById("signup-key").value;
 
-      serverQuery.post("/secret/admin-panel/signup", {
+      serverQuery.post("/creator/signup", {
          username, email, password, key
       })
       .then(res => res.json())
@@ -48,22 +48,22 @@ class Signup extends Component
             <form>
                <div className="row signup-form-body">
                   <div className="col s12 input-field">
-                     <input id="signup-username" placeholder="Nombre de usuario" type="text" />
+                     <input id="signup-username" type="text" />
                      <label htmlFor="signup-username">Nombre de usuario</label>
                   </div>
 
                   <div className="col s12 input-field">
-                     <input id="signup-emaill" placeholder="Correo electrónico" type="text" />
-                     <label htmlFor="signup-emaill">Correo electrónico</label>
+                     <input id="signup-email" type="text" />
+                     <label htmlFor="signup-email">Correo electrónico</label>
                   </div>
 
                   <div className="col s12 input-field">
-                     <input id="signup-password" placeholder="Contraseña" type="password" />
+                     <input id="signup-password" type="password" />
                      <label htmlFor="signup-password">Contraseña</label>
                   </div>
 
                   <div className="col s12 input-field">
-                     <input id="signup-key" placeholder="Clave de seguridad" type="text" />
+                     <input id="signup-key" type="text" />
                      <label htmlFor="signup-key">Clave de seguridad</label>
                   </div>
 

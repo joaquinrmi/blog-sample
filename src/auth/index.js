@@ -19,12 +19,6 @@ module.exports = {
          return false;
       }
 
-      const userFound = await User.find({ email: userData.email });
-      if(userFound && userFound.length > 0)
-      {
-         return false;
-      }
-
       let user = new User();
       user.username = userData.username;
       user.email = userData.email;
