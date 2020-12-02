@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const error = require("../auth/session_error");
 
 const userValidation = require("../validation/user_validation");
 const auth = require("../auth/");
@@ -12,31 +13,76 @@ const Article = require("../model/article");
 router.post("/signup", async (req, res) => {
    if(!req.body)
    {
-      return res.json({ status: false });
+      return res.json({
+         status: false,
+         error: new error.EmptyForm()
+      });
    }
 
    if(!userValidation.validateUsername(req.body.username))
    {
-      return res.json({ status: false });
+      return res.json({
+         status: false,
+         error: new error.InvalidUsername()
+      });
    }
    if(!userValidation.validateEmail(req.body.email))
    {
-      return res.json({ status: false });
+      return res.json({
+         status: false,
+         error: new error.InvalidEmail()
+      });
    }
    if(!userValidation.validatePassword(req.body.password))
    {
-      return res.json({ status: false });
+      return res.json({
+         status: false,
+         error: new error.InvalidPassword()
+      });
    }
 
-   user = await auth.signup(req, res, req.body);
-   if(!user)
+   try
+   {
+      var user = await auth.signup(req, res, req.body);
+   }
+   catch(err)
    {
       console.log("No se ha podido crear una cuenta");
-      return res.json({ status: false });
+      return res.json({
+         status: false,
+         error: error
+      });
    }
 
    console.log("Cuenta creada exitosamente");
-   return res.json({ status: true, username: req.body.username });
+   res.json({ status: true, username: user.username });
+});
+
+/*
+   Método POST para iniciar sesión.
+*/
+router.post("/login", async (req, res) => {
+   if(!req.body)
+   {
+      return res.json({
+         status: false,
+         error: new error.EmptyForm()
+      });
+   }
+
+   try
+   {
+      var user = await auth.login(req, res, req.body.username, req.body.password);
+   }
+   catch(err)
+   {
+      return res.json({
+         status: false,
+         error: err
+      });
+   }
+
+   res.json({ status: true, username: user.username });
 });
 
 /*

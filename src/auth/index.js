@@ -1,5 +1,6 @@
 const User = require("../model/user");
 const UserSession = require("../model/user_session");
+const error = require("./session_error");
 
 const PERMISSIONS = require("../permissions.json");
 
@@ -13,10 +14,12 @@ module.exports = {
 
    signup: async function(req, res, userData)
    {
+      //await User.deleteMany();
+
       const userFound = await User.find({ username: userData.username });
       if(userFound && userFound.length > 0)
       {
-         return false;
+         throw new error.UsernameAlreadyUsed();
       }
 
       let user = new User();
@@ -27,21 +30,31 @@ module.exports = {
       user.articles = [];
 
       await user.save();
+      await this.createSession(req, res, user);
 
-      return this.login(req, res, userData.username, userData.password);
+      return user;
    },
 
    login: async function(req, res, username, password)
    {
+      if(!username)
+      {
+         throw new error.UsernameDoesNotExist();
+      }
+      if(!password)
+      {
+         throw new error.WrongUsernameOrPassword();
+      }
+
       const user = await User.find({ username });
       if(!user || user.length == 0)
       {
-         return false;
+         throw new error.UsernameDoesNotExist();
       }
 
       if(user[0].password != password)
       {
-         return false;
+         throw new error.WrongUsernameOrPassword();
       }
 
       await this.createSession(req, res, user[0]);
@@ -77,18 +90,18 @@ module.exports = {
                const user = await User.find({ username });
                if(!user || user.length == 0)
                {
-                  return false;
+                  throw new error.UsernameDoesNotExist();
                }
 
                const session = await UserSession.find({ _id: user[0]._id });
                if(!session || session.length == 0)
                {
-                  return false;
+                  throw new error.UserSessionDoesNorExist();
                }
 
                if(!session[0].keys.includes(key))
                {
-                  return false;
+                  throw new error.UserSessionDoesNotExist();
                }
 
                res.cookie("user", req.cookies.user, {
@@ -102,22 +115,25 @@ module.exports = {
          }
 
          this.eraseSession(req, res);
-         return false;
+         throw new error.CookieDoesNotExist();
       }
 
       if(req.cookies.user)
       {
-         const user = await this.getUserByCookie(req.cookies.user);
-         if(!user)
+         try
          {
-            return false;
+            var user = await this.getUserByCookie(req.cookies.user);
+         }
+         catch(err)
+         {
+            throw err;
          }
 
          await this.createSession(req, res, user[0]);
          return user[0];
       }
 
-      return false;
+      throw new error.CookieDoesNotExist();
    },
 
    getUserByCookie: async function(cookie)
@@ -128,7 +144,7 @@ module.exports = {
       const user = await User.find({ username });
       if(!user || user.length == 0)
       {
-         return false;
+         throw new error.UsernameDoesNotExist();
       }
 
       return user[0];
@@ -165,7 +181,7 @@ module.exports = {
       }
       
       session[0].keys.push(key);
-      await UserSession.update(
+      await UserSession.updateOne(
          { _id: session[0]._id }, { keys: session[0].keys }
       );
    },
