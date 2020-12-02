@@ -4,6 +4,7 @@ import {
    Route,
    Redirect
 } from "react-router-dom";
+import serverQuery from "../../util/server_query";
 
 import "./admin_panel.css";
 import Login from "./components/login";
@@ -16,11 +17,31 @@ class AdminPanel extends Component
       super(props);
 
       this.state = {
+         loaded: false,
          loggedIn: false,
          username: ""
       };
 
       this.login = this.login.bind(this);
+      this.logout = this.logout.bind(this);
+
+      serverQuery.post("/creator/restore-session", {})
+      .then(res => res.json())
+      .then(data => {
+         if(data.status)
+         {
+            this.setState({
+               loaded: true,
+               loggedIn: true,
+               username: data.username
+            });
+         }
+         else
+         {
+            console.log(data.error);
+            this.setState({ loaded: true });
+         }
+      });
    }
 
    login(username)
@@ -28,10 +49,18 @@ class AdminPanel extends Component
       this.setState({ loggedIn: true, username });
    }
 
+   logout()
+   {
+      serverQuery.post("/creator/logout", { username: this.state.username })
+      .then(res => {
+         this.setState({ loggedIn: false, username: "" });
+      });
+   }
+
    render()
    {
       return <div className="admin-panel">
-         <Switch>
+         {this.state.loaded ? <Switch>
             <Route exact path="/secret/admin-panel/login">
                <Login loggedIn={this.state.loggedIn} login={this.login} />
             </Route>
@@ -40,11 +69,33 @@ class AdminPanel extends Component
                <Signup loggedIn={this.state.loggedIn} login={this.login} />
             </Route>
 
-            <Route path="/secret/admin-panel/">
-               {this.state.loggedIn ? <div></div> : <Redirect to="/secret/admin-panel/login" />}
+            <Route exact path="/secret/admin-panel/logout">
+               {this.state.loggedIn ? <RenderLogout logout={this.logout} /> : <Redirect to="/secret/admin-panel/" />}
             </Route>
-         </Switch>
+
+            <Route path="/secret/admin-panel/">
+               {this.state.loggedIn ? <div>Bien</div> : <Redirect to="/secret/admin-panel/login" />}
+            </Route>
+         </Switch> : <div>cargando...</div>}
       </div>
+   }
+};
+
+class RenderLogout extends Component
+{
+   constructor(props)
+   {
+      super(props);
+   }
+
+   componentDidMount()
+   {
+      this.props.logout();
+   }
+
+   render()
+   {
+      return <div>cerrando sesión...</div>
    }
 };
 

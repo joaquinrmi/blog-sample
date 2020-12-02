@@ -43,7 +43,7 @@ router.post("/signup", async (req, res) => {
 
    try
    {
-      var user = await auth.signup(req, res, req.body);
+      var user = await auth.signup(req, res, req.body, req.body.key);
    }
    catch(err)
    {
@@ -83,6 +83,62 @@ router.post("/login", async (req, res) => {
    }
 
    res.json({ status: true, username: user.username });
+});
+
+/*
+   Método POST para cerrar la sesión actual si es que existe.
+*/
+router.post("/logout", async (req, res) => {
+   await auth.logout(req, res, req.body.username);
+
+   res.json({ status: true });
+});
+
+/*
+   Método POST para restaurar una sesión con la cookie de sesión.
+*/
+router.post("/restore-session", async (req, res) => {
+   if(!req.body)
+   {
+      return res.json({
+         status: false,
+         error: new error.EmptyForm()
+      });
+   }
+
+   try
+   {
+      var user = await auth.getUser(req, res);
+   }
+   catch(err)
+   {
+      return res.json({
+         status: false,
+         error: err
+      });
+   }
+
+   res.json({ status: true, username: user.username });
+});
+
+/*
+   Método POST para generar una nueva clave de administración.
+*/
+router.post("/generate-admin-key", async (req, res) => {
+   try
+   {
+      var user = await auth.getUser(req, res);
+      var key = await auth.generateAdminKey(user, req.body.type);
+   }
+   catch(err)
+   {
+      return res.json({
+         status: false,
+         error: err
+      });
+   }
+
+   res.json({ status: true, key });
 });
 
 /*

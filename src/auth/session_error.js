@@ -79,6 +79,22 @@ class CookieDoesNotExist extends SessionError
    }
 };
 
+class PermissionDenied extends SessionError
+{
+   constructor()
+   {
+      super("permission-denied", "El usuario no tiene los permisos suficientes para realizar esta acción.");
+   }
+};
+
+class InvalidAdminKey extends SessionError
+{
+   constructor()
+   {
+      super("invalid-admin-key", "La clave de administación ingresada es inválida.");
+   }
+};
+
 module.exports = {
    EmptyForm,
    InvalidUsername,
@@ -89,5 +105,7 @@ module.exports = {
    UsernameDoesNotExist,
    WrongUsernameOrPassword,
    UserSessionDoesNotExist,
-   CookieDoesNotExist
+   CookieDoesNotExist,
+   PermissionDenied,
+   InvalidAdminKey
 };

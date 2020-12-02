@@ -1,10 +1,21 @@
 const User = require("../model/user");
 const UserSession = require("../model/user_session");
+const AdminKey = require("../model/admin_key");
 const error = require("./session_error");
 
 const PERMISSIONS = require("../permissions.json");
 
 const CHAR = "aAbBcCdDeEfFgGhHiIjJkKlLmMnNoOpPqQrRsStTuUvVwWxXyYzZ0123456789";
+
+function randomString(set, length)
+{
+   const result = "";
+   for(let i = 0; i < length; ++i)
+   {
+      result += set[Math.floor(Math.random() * CHAR.length)];
+   }
+   return result;
+}
 
 module.exports = {
    checkPermissions: function(user, actionName)
@@ -12,9 +23,52 @@ module.exports = {
       return PERMISSIONS[user.grade][actionName];
    },
 
-   signup: async function(req, res, userData)
+   generateAdminKey: async function(user, type)
    {
-      //await User.deleteMany();
+      if(!this.checkPermissions(user, "generate_admin_key"))
+      {
+         throw new error.PermissionDenied();
+      }
+
+      let key = randomString(CHAR, 8);
+      while(await AdminKey.findById(key).exec())
+      {
+         key = randomString(CHAR, 8);
+      }
+
+      const adminKey = new AdminKey();
+      adminKey._id = key;
+      adminKey.type = type;
+
+      await adminKey.save();
+
+      return key;
+   },
+
+   useAdminKey: async function(key, type)
+   {
+      const adminKey = await AdminKey.findById(key).exec();
+      if(!adminKey)
+      {
+         return false;
+      }
+
+      if(adminKey.type != type)
+      {
+         return false;
+      }
+
+      await AdminKey.deleteOne({ _id: key });
+
+      return true;
+   },
+
+   signup: async function(req, res, userData, adminKey)
+   {
+      if(!this.useAdminKey(adminKey, "session-key"))
+      {
+         throw new error.InvalidAdminKey();
+      }
 
       const userFound = await User.find({ username: userData.username });
       if(userFound && userFound.length > 0)
@@ -76,6 +130,9 @@ module.exports = {
 
    getUser: async function(req, res)
    {
+      //await User.deleteMany();
+      //await UserSession.deleteMany();
+
       if(req.session.username)
       {
          if(req.cookies.user)
@@ -129,8 +186,8 @@ module.exports = {
             throw err;
          }
 
-         await this.createSession(req, res, user[0]);
-         return user[0];
+         await this.createSession(req, res, user);
+         return user;
       }
 
       throw new error.CookieDoesNotExist();
