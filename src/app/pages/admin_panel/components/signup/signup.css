@@ -1,0 +1,20 @@
+.signup
+{
+   margin: auto;
+   box-sizing: border-box;
+   display: block;
+   max-width: 350px;
+   padding: 2em;
+   background-color: white;
+   border-radius: 3px;
+}
+
+.signup-form-body
+{
+   margin: 2em 0;
+}
+
+.signup-footer
+{
+   margin-top: 2em;
+}

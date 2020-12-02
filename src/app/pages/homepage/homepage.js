@@ -39,7 +39,7 @@ class Homepage extends Component
                {
                   const article = this.articles[i];
 
-                  articles.push(<Article name={article.name} title={article.title} tags={article.tags} content={article.content} cover={article.cover} />);
+                  articles.push(<Article key={`homepage-article-${article.name}`} name={article.name} title={article.title} tags={article.tags} content={article.content} cover={article.cover} />);
                }
 
                return articles;

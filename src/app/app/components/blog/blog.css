@@ -1,0 +1,13 @@
+.right-body-section
+{
+   vertical-align: top;
+   box-sizing: border-box;
+   width: 300px;
+}
+
+.left-body-section
+{
+   box-sizing: border-box;
+   padding: 0 2em;
+   width: auto;
+}
