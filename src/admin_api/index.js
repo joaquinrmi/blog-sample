@@ -6,6 +6,7 @@ const userValidation = require("../validation/user_validation");
 const auth = require("../auth/");
 
 const Article = require("../model/article");
+const User = require("../model/user");
 
 /*
    Método POST para crear una nueva cuenta.
@@ -144,8 +145,93 @@ router.post("/generate-admin-key", async (req, res) => {
 /*
    Método POST para la creación de un nuevo artículo.
 */
-router.post("/create-article", (req, res) => {
-   
+router.post("/create-article", async (req, res) => {
+   if(!req.body)
+   {
+      return res.json({
+         status: false,
+         error: new error.EmptyForm()
+      });
+   }
+
+   try
+   {
+      var user = await auth.getUser(req, res);
+   }
+   catch(err)
+   {
+      return res.json({
+         status: false,
+         error: err
+      });
+   }
+
+   if(!auth.checkPermissions(user, "create_article"))
+   {
+      return res.json({
+         status: false,
+         error: new error.PermissionDenied()
+      });
+   }
+
+   const name = req.body.title.split(" ").join("-").toLowerCase();
+   const articleFound = await Article.findOne({ name }).exec();
+   if(articleFound)
+   {
+      return res.json({
+         status: false,
+         error: new error.ArticleNameAlreadyUsed()
+      });
+   }
+
+   const article = new Article();
+   article.name = name;
+   article.title = req.body.title;
+   article.tags = req.body.tags.split(" ").join("").split(",");
+   article.content = req.body.content.split("\n");
+   article.cover = req.body.cover;
+   article.author = user._id;
+
+   await article.save();
+
+   res.json({ status: true });
+});
+
+/*
+   Elimina todos los artículos.
+*/
+router.post("/erase-many-articles", async (req, res) => {
+   try
+   {
+      var user = await auth.getUser(req, res);
+   }
+   catch(err)
+   {
+      return res.json({
+         status: false,
+         error: err
+      });
+   }
+
+   if(!auth.checkPermissions(user, "erase_many_articles"))
+   {
+      return res.json({
+         status: false,
+         error: new error.PermissionDenied()
+      });
+   }
+
+   const articles = await Article.find({});
+   for(let i = 0; i < articles.length; ++i)
+   {
+      const author = await User.findOne({ _id: articles[i].author }).exec();
+      const articleIndex = author.articles.indexOf(articles[i]._id);
+      author.articles.splice(articleIndex, 1);
+
+      await User.updateOne({ _id: author._id });
+   }
+
+   res.json({ status: true });
 });
 
 module.exports = router;

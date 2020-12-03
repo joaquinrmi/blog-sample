@@ -95,6 +95,14 @@ class InvalidAdminKey extends SessionError
    }
 };
 
+class ArticleNameAlreadyUsed extends SessionError
+{
+   constructor()
+   {
+      super("article-name-already-used", "El nombre para el artículo ya se encuentra en uso.");
+   }
+};
+
 module.exports = {
    EmptyForm,
    InvalidUsername,
@@ -107,5 +115,6 @@ module.exports = {
    UserSessionDoesNotExist,
    CookieDoesNotExist,
    PermissionDenied,
-   InvalidAdminKey
+   InvalidAdminKey,
+   ArticleNameAlreadyUsed
 };

@@ -3,7 +3,8 @@ const express = require("express");
 const cookieParser = require('cookie-parser');
 const session = require("express-session");
 
-const AdminAPI = require("./admin_api");
+const AdminAPI = require("./admin_api/");
+const ViewerAPI = require("./viewer_api/");
 
 require("./database");
 
@@ -26,6 +27,7 @@ app.use(session({
    Rutas de la API
 */
 app.use("/creator", AdminAPI);
+app.use("/view", ViewerAPI);
 
 /*
    Ruta principal de la aplicación

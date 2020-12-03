@@ -5,7 +5,7 @@ const articleSchema = new Schema({
    name:       String,
    title:      String,
    tags:       [ String ],
-   content:    String,
+   content:    [ String ],
    cover:      String,
    author:     mongoose.ObjectId
 });

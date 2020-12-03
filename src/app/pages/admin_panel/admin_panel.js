@@ -7,8 +7,9 @@ import {
 import serverQuery from "../../util/server_query";
 
 import "./admin_panel.css";
-import Login from "./components/login";
-import Signup from "./components/signup";
+import Login from "./components/login/";
+import Signup from "./components/signup/";
+import Dashboard from "./components/dashboard/dashboard";
 
 class AdminPanel extends Component
 {
@@ -74,7 +75,7 @@ class AdminPanel extends Component
             </Route>
 
             <Route path="/secret/admin-panel/">
-               {this.state.loggedIn ? <div>Bien</div> : <Redirect to="/secret/admin-panel/login" />}
+               {this.state.loggedIn ? <Dashboard /> : <Redirect to="/secret/admin-panel/login" />}
             </Route>
          </Switch> : <div>cargando...</div>}
       </div>
