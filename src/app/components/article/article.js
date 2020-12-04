@@ -23,6 +23,7 @@ class Article extends Component
             backgroundPosition: "center",
             backgroundSize: "cover"
          }}></div>
+
          <div className="article-content">
             <div className="article-title">
                <div className="article-tags-container">
@@ -33,7 +34,7 @@ class Article extends Component
                      {
                         const tag = this.props.tags[i];
 
-                        tags.push(<div className="article-tag">
+                        tags.push(<div key={`article-tag-${this.props.name}-${tag}`} className="article-tag">
                            <Link to={`/category/${tag}`}>
                               <span className="grey-text text-lighten-1">
                                  {tag}

@@ -24,6 +24,7 @@ router.get("/article-list", async (req, res) => {
 
    for(let i = 0; i < articles.length; ++i)
    {
+      articles[i]._id = undefined;
       articles[i].content = articles[i].content[0];
    }
 

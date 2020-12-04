@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-import Article from "../../components/article";
+import ArticleList from "../../components/article_list/";
 
 import "./homepage.css";
 
@@ -31,19 +31,8 @@ class Homepage extends Component
    render()
    {
       return <div className="homepage-container">
-         <div className="body-section article-container">
-            {(() => {
-               let articles = [];
-
-               for(let i = 0; i < this.articles.length; ++i)
-               {
-                  const article = this.articles[i];
-
-                  articles.push(<Article key={`homepage-article-${article.name}`} name={article.name} title={article.title} tags={article.tags} content={article.content} cover={article.cover} />);
-               }
-
-               return articles;
-            })()}
+         <div className="article-container">
+            <ArticleList page={0} pageSize={10} />
          </div>
       </div>
    }

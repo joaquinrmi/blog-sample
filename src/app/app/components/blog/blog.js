@@ -8,10 +8,10 @@ import {
 import MainHeader from "../main_header/";
 import Aside from "../aside/";
 import Footer from "../footer/";
+import ArticleList from "../../../components/article_list/";
 
 import Homepage from "../../../pages/homepage";
 import ArticlePage from "../../../pages/article";
-import CategoryPage from "../../../pages/category";
 
 import "./blog.css";
 
@@ -39,7 +39,7 @@ class Blog extends Component
                   </Route>
 
                   <Route path="/category/:id">
-                     <Category />
+                     <ArticleList page={0} pageSize={10} />
                   </Route>
                </Switch>
             </div>
