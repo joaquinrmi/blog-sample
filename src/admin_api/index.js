@@ -231,6 +231,8 @@ router.post("/erase-many-articles", async (req, res) => {
       await User.updateOne({ _id: author._id });
    }
 
+   await Article.deleteMany();
+
    res.json({ status: true });
 });
 
