@@ -28,8 +28,11 @@ class Dashboard extends Component
 
    componentDidMount()
    {
-      const el = document.getElementById("dashboard-tabs");
-      M.Tabs.init(el, {});
+      const tabs = document.getElementById("dashboard-tabs");
+      M.Tabs.init(tabs, {});
+
+      var modals = document.querySelectorAll('.modal');
+      M.Modal.init(modals, {});
    }
 
    render()
@@ -68,14 +71,19 @@ class Dashboard extends Component
                <div id="advanced-tools" className="dashboard-tab">
                   <h5>Eliminar entradas</h5>
                   <p>Las siguientes funciones eliminarán permanentemente y de forma irreversible las entradas indicadas.</p>
-                  <button className="btn modal-trigger" href="#erase-many-articles-modal" onClick={ev => {
-                     ev.preventDefault();
-                     this.eraseManyArticles();
-                  }}>Eliminar todas las entradas</button>
+                  <button className="btn modal-trigger" href="#erase-many-articles-modal">Eliminar todas las entradas</button>
 
                   <div className="modal" id="erase-many-articles-modal">
-                     <div className="modal-content"></div>
-                     <div className="modal-footer"></div>
+                     <div className="modal-content">
+                        <h5>Advertencia</h5>
+                        <p>Esta opción borrará todos los artículos publicados por cualquier usuario y será una acción irreversible.</p>
+                     </div>
+                     <div className="modal-footer">
+                        <a href="#!" className="btn modal-close" onClick={ev => {
+                           ev.preventDefault();
+                           this.eraseManyArticles();
+                        }}>Continuar</a>
+                     </div>
                   </div>
                </div>
             </div>
