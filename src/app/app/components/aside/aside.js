@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
+import serverRequest from "../../../util/server_query";
+
 import "./aside.css";
 
 class Aside extends Component
@@ -9,21 +11,11 @@ class Aside extends Component
    {
       super(props);
 
-      this.tags = [
-         {
-            value: "animals",
-            count: 2
-         },
-         {
-            value: "example",
-            count: 2
-         },
-         {
-            value: "news",
-            count: 2
-         }
-      ];
+      this.state = {
+         loaded: false
+      };
 
+      this.tags = [];
       this.articles = [
          {
             name: "first-article",
@@ -34,6 +26,17 @@ class Aside extends Component
             title: "Second article"
          }
       ];
+   }
+
+   componentDidMount()
+   {
+      serverRequest.get("/view/tag-list", {})
+      .then(res => res.json())
+      .then(data => {
+         this.tags = data;
+         console.log(data);
+         this.setState({loaded: true});
+      });
    }
 
    render()

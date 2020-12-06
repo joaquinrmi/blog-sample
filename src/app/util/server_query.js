@@ -12,6 +12,10 @@ export default {
          queryText += `${key}"="${query[key]}`;
          ++count;
       }
+      if(queryText.length == 1)
+      {
+         queryText = "";
+      }
 
       return fetch(requestInfo + queryText);
    },

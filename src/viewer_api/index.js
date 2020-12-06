@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const Article = require("../model/article");
+const Tag = require("../model/tag");
 
 /*
    Obtener una lista de descripciones de artículos.
@@ -29,6 +30,23 @@ router.get("/article-list", async (req, res) => {
    }
 
    res.json(articles);
+});
+
+/*
+   Obtener una lista con todas las etiquetas.
+*/
+router.get("/tag-list", async (req, res) => {
+   const tagFound = await Tag.find({});
+   const tags = [];
+   for(let i = 0; i < tagFound.length; ++i)
+   {
+      tags.push({
+         value: tagFound[i]._id,
+         count: tagFound[i].articles.length
+      });
+   }
+
+   res.json(tags);
 });
 
 module.exports = router;

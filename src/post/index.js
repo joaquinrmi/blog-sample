@@ -26,10 +26,11 @@ module.exports = {
 
       await article.save();
 
-      this.registerArticleInUser(user, article._id);
-      for(let i = 0; i < article.tags; ++i)
+      await this.registerArticleInUser(user, article._id);
+      for(let i = 0; i < article.tags.length; ++i)
       {
-         this.registerArticleInTag(article.tags[i], article._id);
+         console.log("por registrar en tag");
+         await this.registerArticleInTag(article.tags[i], article._id);
       }
    },
 
@@ -93,6 +94,7 @@ module.exports = {
    registerArticleInTag: async function(tag, articleId)
    {
       const tagFound = await Tag.findOne({ _id: tag }).exec();
+      console.log(tagFound);
       if(tagFound)
       {
          tagFound.articles.push(articleId);
