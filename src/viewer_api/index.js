@@ -8,24 +8,28 @@ const Tag = require("../model/tag");
    Obtener una lista de descripciones de artículos.
 */
 router.get("/article-list", async (req, res) => {
-   let skip = req.query.min;
-   let limit = req.query.limit;
+   let skip = Number(req.query.skip);
+   let limit = Number(req.query.limit);
 
-   if(typeof skip != "number" || skip < 0)
+   if(req.query.tag != "undefined")
    {
-      skip = 0;
-   }
+      const tag = await Tag.findOne({ _id: req.query.tag }).exec();
+      let articles = [];
 
-   if(typeof limit != "number" || limit < 0)
-   {
-      limit = 0;
+      for(let i = skip; i < skip + limit && i < tag.articles.length; ++i)
+      {
+         const article = await Article.findOne({ _id: tag.articles[i] }).exec();
+         article._id = undefined;
+         articles.push(article);
+      }
+
+      return res.json(articles);
    }
 
    const articles = await Article.find({}, "name title tags content cover author", { skip, limit }).exec();
 
    for(let i = 0; i < articles.length; ++i)
    {
-      articles[i]._id = undefined;
       articles[i].content = articles[i].content[0];
    }
 

@@ -23,8 +23,9 @@ class ArticleList extends Component
    componentDidMount()
    {
       serverRequest.get("/view/article-list", {
-         skip: this.props.skip,
-         limit: this.props.limit
+         skip: this.skip,
+         limit: this.limit,
+         tag: this.props.tag
       })
       .then(res => res.json())
       .then(data => {

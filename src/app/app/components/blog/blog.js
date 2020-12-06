@@ -12,6 +12,7 @@ import ArticleList from "../../../components/article_list/";
 
 import Homepage from "../../../pages/homepage";
 import ArticlePage from "../../../pages/article";
+import Article from "../../../pages/article/";
 
 import "./blog.css";
 
@@ -38,8 +39,8 @@ class Blog extends Component
                      <Article />
                   </Route>
 
-                  <Route path="/category/:id">
-                     <ArticleList page={0} pageSize={10} />
+                  <Route path="/category/:tag">
+                     <Category />
                   </Route>
                </Switch>
             </div>
@@ -54,16 +55,10 @@ class Blog extends Component
    }
 };
 
-function Article()
-{
-   let { id } = useParams();
-   return <ArticlePage id={id} />;
-}
-
 function Category()
 {
-   let { id } = useParams();
-   return <CategoryPage id={id} />;
+   let { tag } = useParams();
+   return <ArticleList key={tag} tag={tag} page={0} pageSize={10} />;
 }
 
 export default Blog;

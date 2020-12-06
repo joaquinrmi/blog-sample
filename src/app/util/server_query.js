@@ -9,13 +9,14 @@ export default {
          {
             queryText += "&";
          }
-         queryText += `${key}"="${query[key]}`;
+         queryText += `${key}=${query[key]}`;
          ++count;
       }
       if(queryText.length == 1)
       {
          queryText = "";
       }
+      console.log(queryText);
 
       return fetch(requestInfo + queryText);
    },
