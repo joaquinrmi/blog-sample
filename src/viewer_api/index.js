@@ -14,19 +14,23 @@ router.get("/article-list", async (req, res) => {
    if(req.query.tag != "undefined")
    {
       const tag = await Tag.findOne({ _id: req.query.tag }).exec();
-      let articles = [];
 
-      for(let i = skip; i < skip + limit && i < tag.articles.length; ++i)
+      let articles = [];
+      for(let i = 0; i < tag.articles.length; ++i)
       {
          const article = await Article.findOne({ _id: tag.articles[i] }).exec();
          article._id = undefined;
          articles.push(article);
       }
 
+      articles.reverse();
+      articles.splice(0, skip);
+      articles.splice(limit);
+
       return res.json(articles);
    }
 
-   const articles = await Article.find({}, "name title tags content cover author", { skip, limit }).exec();
+   const articles = await Article.find({}, "name title tags content cover author", { skip, limit }).sort({ date: -1 }).exec();
 
    for(let i = 0; i < articles.length; ++i)
    {

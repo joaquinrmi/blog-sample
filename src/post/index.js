@@ -23,6 +23,7 @@ module.exports = {
       article.content = articleData.content.split("\n");
       article.cover = articleData.cover;
       article.author = user._id;
+      article.date = new Date(Date.now());
 
       await article.save();
 
@@ -36,7 +37,7 @@ module.exports = {
 
    eraseArticle: async function(article)
    {
-      this.unbindArticle(article);
+      await this.unbindArticle(article);
       await Article.deleteOne({ _id: article._id });
    },
 
@@ -54,7 +55,7 @@ module.exports = {
       const articles = await Article.find({});
       for(let i = 0; i < articles.length; ++i)
       {
-         this.unbindArticle(articles[i]);
+         await this.unbindArticle(articles[i]);
       }
 
       await Article.deleteMany();
