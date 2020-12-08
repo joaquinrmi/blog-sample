@@ -3,6 +3,7 @@ const router = express.Router();
 
 const Article = require("../model/article");
 const Tag = require("../model/tag");
+const ArticlePopularity = require("../model/article_popularity");
 
 /*
    Obtener una lista de descripciones de artículos.
@@ -55,6 +56,25 @@ router.get("/tag-list", async (req, res) => {
    }
 
    res.json(tags);
+});
+
+/*
+   Obtener una lista con las entradas más populares.
+*/
+router.get("/popular-articles", async (req, res) => {
+   const popularity = await ArticlePopularity.find().limit(10).sort({ visits: -1 }).exec();
+
+   let popularArticles = [];
+   for(let i = 0; i < popularity.length; ++i)
+   {
+      const article = await Article.findOne({ _id: popularity[i]._id }).exec();
+      popularArticles.push({
+         name: article.name,
+         title: article.title
+      });
+   }
+
+   res.json(popularArticles);
 });
 
 module.exports = router;

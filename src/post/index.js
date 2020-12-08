@@ -1,4 +1,5 @@
 const Article = require("../model/article");
+const ArticlePopularity = require("../model/article_popularity");
 const Tag = require("../model/tag");
 const User = require("../model/user");
 const error = require("../auth/session_error");
@@ -24,8 +25,12 @@ module.exports = {
       article.cover = articleData.cover;
       article.author = user._id;
       article.date = new Date(Date.now());
-
       await article.save();
+
+      const articlePopularity = new ArticlePopularity();
+      articlePopularity._id = article._id;
+      articlePopularity.visits = 0;
+      await articlePopularity.save();
 
       await this.registerArticleInUser(user, article._id);
       for(let i = 0; i < article.tags.length; ++i)
@@ -39,6 +44,7 @@ module.exports = {
    {
       await this.unbindArticle(article);
       await Article.deleteOne({ _id: article._id });
+      await ArticlePopularity.deleteOne({ _id: article._id });
    },
 
    eraseArticleByName: async function(name)
@@ -59,6 +65,7 @@ module.exports = {
       }
 
       await Article.deleteMany();
+      await ArticlePopularity.deleteMany();
    },
 
    unbindArticle: async function(article)
@@ -69,7 +76,7 @@ module.exports = {
 
       await User.updateOne({ _id: author._id }, { articles: author.articles });
 
-      for(let i = 0; i < article.tags; ++i)
+      for(let i = 0; i < article.tags.length; ++i)
       {
          const tag = await Tag.findOne({ _id: article.tags[i] }).exec();
          const indexInTag = tag.articles.indexOf(article._id);

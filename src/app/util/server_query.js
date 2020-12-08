@@ -16,7 +16,6 @@ export default {
       {
          queryText = "";
       }
-      console.log(queryText);
 
       return fetch(requestInfo + queryText);
    },

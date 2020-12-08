@@ -15,17 +15,20 @@ class Aside extends Component
          loaded: false
       };
 
+      this.loaded = 0;
       this.tags = [];
-      this.articles = [
-         {
-            name: "first-article",
-            title: "First article"
-         },
-         {
-            name: "second-article",
-            title: "Second article"
-         }
-      ];
+      this.popularArticles = [];
+
+      this.informDataLoaded = this.informDataLoaded.bind(this);
+   }
+
+   informDataLoaded()
+   {
+      this.loaded += 1;
+      if(this.loaded >= 2)
+      {
+         this.setState({ loaded: true });
+      }
    }
 
    componentDidMount()
@@ -34,8 +37,14 @@ class Aside extends Component
       .then(res => res.json())
       .then(data => {
          this.tags = data;
-         console.log(data);
-         this.setState({loaded: true});
+         this.informDataLoaded();
+      });
+
+      serverRequest.get("/view/popular-articles", {})
+      .then(res => res.json())
+      .then(data => {
+         this.popularArticles = data;
+         this.informDataLoaded();
       });
    }
 
@@ -79,18 +88,18 @@ class Aside extends Component
 
             <ul className="aside-list">
                {(() => {
-                  const articles = [];
+                  const popularArticles = [];
 
-                  for(let i = 0; i < this.articles.length; ++i)
+                  for(let i = 0; i < this.popularArticles.length; ++i)
                   {
-                     const art = this.articles[i];
+                     const art = this.popularArticles[i];
 
-                     articles.push(<li key={`aside-article-${art.name}`}>
+                     popularArticles.push(<li key={`aside-article-${art.name}`}>
                         <Link to={`/article/${art.name}`}>{art.title}</Link>
                      </li>)
                   }
 
-                  return articles;
+                  return popularArticles;
                })()}
             </ul>
          </div>
