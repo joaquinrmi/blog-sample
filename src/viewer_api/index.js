@@ -6,6 +6,27 @@ const Tag = require("../model/tag");
 const ArticlePopularity = require("../model/article_popularity");
 
 /*
+   Obtener la descripciónd de un artículo
+*/
+router.get("/article", async (req, res) => {
+   if(!req.query.name)
+   {
+      return res.json({});
+   }
+
+   const article = await Article.findOne({ name: req.query.name }).exec();
+   if(!article)
+   {
+      return res.json({});
+   }
+
+   const popularity = await ArticlePopularity.findOne({ _id: article._id }).exec();
+   await ArticlePopularity.updateOne({ _id: article._id }, { visits: popularity.visits + 1 });
+
+   res.json(article);
+});
+
+/*
    Obtener una lista de descripciones de artículos.
 */
 router.get("/article-list", async (req, res) => {
