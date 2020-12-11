@@ -1,8 +1,10 @@
 import React, { Component } from "react";
 import serverRequest from "../../util/server_query";
 
-import Article from "../article/";
 import LoadingArticle from "../loading_article/";
+import ArticleListSection from "./article_list_section";
+
+import "./article_list.css";
 
 class ArticleList extends Component
 {
@@ -11,26 +13,73 @@ class ArticleList extends Component
       super(props);
 
       this.state = {
+         sectionCount: 0,
          loaded: false
       };
+
+      this.maxArticleCount = 0;
+      this.totalArticleCount = 0;
+      this.sections = [];
+      this.loading = false;
 
       this.limit = this.props.pageSize;
       this.skip = this.limit * this.props.page;
 
-      this.articles = [];
+      this.loadMore = this.loadMore.bind(this);
+      this.loadMoreArticles = this.loadMoreArticles.bind(this);
    }
 
-   componentDidMount()
+   loadMoreArticles()
    {
+      this.loading = true;
+      var skip = this.skip + this.totalArticleCount;
+
       serverRequest.get("/view/article-list", {
-         skip: this.skip,
+         skip,
          limit: this.limit,
          tag: this.props.tag
       })
       .then(res => res.json())
       .then(data => {
-         this.articles = data;
+         this.totalArticleCount += data.length;
+
+         if(data.length > 0)
+         {
+            this.sections.push(data);
+            this.setState({ sectionCount: this.state.sectionCount + 1, loaded: true });
+            this.loading = false;
+            return;
+         }
+
          this.setState({ loaded: true });
+         this.loading = false;
+
+      });
+   }
+
+   loadMore()
+   {
+      return <div className="load-more-container">
+         <button className="btn" onClick={ev => {
+            ev.preventDefault();
+
+            if(!this.loading)
+            {
+               this.loadMoreArticles();
+            }
+         }}>Load more</button>
+      </div>;
+   }
+
+   componentDidMount()
+   {
+      serverRequest.get("/view/article-count", {
+         tag: this.props.tag
+      })
+      .then(res => res.json())
+      .then(data => {
+         this.maxArticleCount = data.count;
+         this.loadMoreArticles();
       });
    }
 
@@ -42,17 +91,19 @@ class ArticleList extends Component
       {
          content = <div className="article-list">
             {(() => {
-               let articles = [];
+               const sections = [];
 
-               for(let i = 0; i < this.articles.length; ++i)
+               for(let i = 0; i < this.sections.length; ++i)
                {
-                  const art = this.articles[i];
+                  const section = this.sections[i];
 
-                  articles.push(<Article key={`category-article-${art.name}`} name={art.name} title={art.title} content={art.content} tags={art.tags} cover={art.cover} />);
+                  sections.push(<ArticleListSection key={`${this.props.name}-art-section-${i}`} articles={section} />);
                }
 
-               return articles;
+               return sections;
             })()}
+
+            {this.totalArticleCount < this.maxArticleCount ? this.loadMore() : <div></div>}
          </div>;
       }
       else

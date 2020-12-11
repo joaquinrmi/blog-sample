@@ -10,6 +10,14 @@ class MainHeader extends Component
       super(props);
    }
 
+   /*
+      El MainHeader no tiene diferentes estados y por lo tanto no deberá redibujarse en pantalla más de una vez.
+   */
+   shouldComponentUpdate(nextProps, nextState)
+   {
+      return false;
+   }
+
    render()
    {
       return <div className="main-header grey darken-4">
@@ -27,22 +35,24 @@ class MainHeader extends Component
             </div>
          </div>
 
-         <div className="main-header-nav content-limit">
-            <nav className="transparent">
-               <ul>
-                  <li className="active"><Link to="/">
-                     <span className="grey-text text-lighten-5">
-                        Home
-                     </span>
-                  </Link></li>
+         <div className="main-header-nav-container flex">
+            <div className="main-header-nav content-limit">
+               <nav className="transparent">
+                  <ul>
+                     <li className="active"><Link to="/">
+                        <span className="grey-text text-lighten-5">
+                           Home
+                        </span>
+                     </Link></li>
 
-                  <li className="active"><Link to="/category/animals">
-                     <span className="grey-text text-lighten-5">
-                        Animals
-                     </span>
-                  </Link></li>
-               </ul>
-            </nav>
+                     <li className="active"><Link to="/category/animals">
+                        <span className="grey-text text-lighten-5">
+                           Animals
+                        </span>
+                     </Link></li>
+                  </ul>
+               </nav>
+            </div>
          </div>
       </div>
    }

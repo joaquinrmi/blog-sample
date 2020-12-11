@@ -1,0 +1,16 @@
+.load-more-container
+{
+   box-sizing: border-box;
+   padding: 4em 2em 2em 2em;
+   text-align: center;
+}
+
+.article-list-section
+{
+   margin-top: 2em;
+}
+
+.article-list-section:first-child
+{
+   margin-top: 0;
+}

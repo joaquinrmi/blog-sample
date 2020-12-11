@@ -20,6 +20,7 @@
 {
    margin: 0;
    font-size: 40px;
+   font-weight: normal;
    user-select: none;
 }
 
@@ -27,6 +28,8 @@
 {
    text-align: center;
    border-top: 1px solid #424242;
+   display: inline-block;
+   padding: 0 2em;
 }
 
 .main-header-nav nav

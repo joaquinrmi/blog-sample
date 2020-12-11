@@ -27,6 +27,25 @@ router.get("/article", async (req, res) => {
 });
 
 /*
+   Obtener la cantidad de artículos existentes.
+*/
+router.get("/article-count", async (req, res) => {
+   if(req.query.tag != "undefined")
+   {
+      const tag = await Tag.findOne({ _id: req.query.tag }).exec();
+      if(!tag)
+      {
+         return res.json({ count: 0 });
+      }
+
+      return res.json({ count: tag.aticles.length });
+   }
+
+   const elements = await Article.find({});
+   res.json({ count: elements.length });
+});
+
+/*
    Obtener una lista de descripciones de artículos.
 */
 router.get("/article-list", async (req, res) => {
@@ -36,6 +55,10 @@ router.get("/article-list", async (req, res) => {
    if(req.query.tag != "undefined")
    {
       const tag = await Tag.findOne({ _id: req.query.tag }).exec();
+      if(!tag)
+      {
+         return res.json([]);
+      }
 
       let articles = [];
       for(let i = 0; i < tag.articles.length; ++i)
